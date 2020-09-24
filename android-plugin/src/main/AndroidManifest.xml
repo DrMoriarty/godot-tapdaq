@@ -14,6 +14,9 @@
         android:name="org.godotengine.plugin.v1.Tapdaq"
         android:value="ru.mobilap.tapdaq.Tapdaq" />
 
+    <meta-data
+        android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+        android:value="true"/>
   </application>
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

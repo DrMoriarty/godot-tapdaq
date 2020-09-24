@@ -7,5 +7,16 @@ binary="ru.mobilap.godot:godot-tapdaq:+"
 [dependencies]
 
 local=[]
-remote=["com.tapdaq.sdk:TapdaqAdColonyAdapter:7.5.3", "com.tapdaq.sdk:TapdaqVungleAdapter:7.5.3", "com.tapdaq.sdk:TapdaqInmobiAdapter:7.5.3", "com.tapdaq.sdk:TapdaqUnityAdsAdapter:7.5.3", "com.tapdaq.sdk:TapdaqTapjoyAdapter:7.5.3", "com.tapdaq.sdk:TapdaqChartboostAdapter:7.5.3", "com.tapdaq.sdk:TapdaqIronsourceAdapter:7.5.3", "com.tapdaq.sdk:TapdaqMintegralAdapter:7.5.3", "com.tapdaq.sdk:TapdaqAppLovinAdapter:7.5.3", "com.tapdaq.sdk:TapdaqAdMobAdapter:7.5.3", "com.tapdaq.sdk:TapdaqFANAdapter:7.5.3"]
+remote=[
+"com.tapdaq.sdk:TapdaqAdColonyAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqVungleAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqInmobiAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqUnityAdsAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqTapjoyAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqChartboostAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqIronsourceAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqMintegralAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqAppLovinAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqAdMobAdapter:7.7.0",
+"com.tapdaq.sdk:TapdaqFANAdapter:7.7.0"]
 custom_maven_repos=["https://dl.bintray.com/mobilap/maven/", "http://android-sdk.tapdaq.com", "https://adcolony.bintray.com/AdColony", "https://jitpack.io", "https://tapjoy.bintray.com/maven", "https://dl.bintray.com/ironsource-mobile/android-sdk"]
