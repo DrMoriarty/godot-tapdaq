@@ -33,6 +33,9 @@ import com.tapdaq.sdk.listeners.*;
 import com.tapdaq.sdk.model.rewards.TDReward;
 import com.tapdaq.sdk.helpers.TLog;
 import com.tapdaq.sdk.helpers.TLogLevel;
+import com.tapdaq.sdk.adnetworks.TMMediationNetworks;
+import com.tapdaq.sdk.adnetworks.TDMediatedNativeAd;
+import com.tapdaq.sdk.adnetworks.TDMediatedNativeAdOptions;
 
 public class Tapdaq extends GodotPlugin
 {
@@ -46,6 +49,7 @@ public class Tapdaq extends GodotPlugin
     private HashMap<String, InterstitialWrapper> interstitials = new HashMap<>();
     private HashMap<String, TMBannerAdView> banners = new HashMap<>();
     private HashMap<String, TMAdListener> rewardeds = new HashMap<>();
+    private HashMap<String, NativeWrapper> natives = new HashMap<>();
 
     private boolean ProductionMode = true; // Store if is real or not
 
@@ -60,6 +64,16 @@ public class Tapdaq extends GodotPlugin
             id = _id;
             video = _v;
             listener = _l;
+        }
+    }
+
+    private class NativeWrapper {
+        public final String id;
+        public NativeAdLayout layout = null;
+        public TMAdListener listener = null;
+        public TDMediatedNativeAd mAd = null;
+        NativeWrapper(final String _id) {
+            id = _id;
         }
     }
 
@@ -99,7 +113,19 @@ public class Tapdaq extends GodotPlugin
         //config.setForwardUserId(true);
         internalInit(appId, clientKey, config);
     }
-     
+
+    public void initWithTestDevice(final String appId, final String clientKey, final String admobId, final String facebookId)
+    {
+        this.ProductionMode = false;
+        TLog.setLoggingLevel(TLogLevel.DEBUG);
+        TapdaqConfig config = new TapdaqConfig();
+        config.setAutoReloadAds(true);
+        if(admobId.length() > 0)
+            config.registerTestDevices(TMMediationNetworks.AD_MOB, Arrays.asList(admobId));
+        if(facebookId.length() > 0)
+            config.registerTestDevices(TMMediationNetworks.FACEBOOK, Arrays.asList(facebookId));
+        internalInit(appId, clientKey, config);
+    }
 
     private void internalInit(final String appId, final String clientKey, final TapdaqConfig config)
     {
@@ -566,6 +592,108 @@ public class Tapdaq extends GodotPlugin
             });
     }
 
+
+    /* Native Ads
+     * ********************************************************************** */
+    private NativeWrapper initNative(final String id, final int callback_id)
+    {
+        final NativeWrapper n = new NativeWrapper(id);
+
+        n.listener = new TMAdListener() {
+                @Override
+                public void didLoad(TDMediatedNativeAd ad) {
+                    // First banner loaded into view
+                    Log.w(TAG, "Native: didLoad");
+                    n.mAd = ad;
+                    GodotLib.calldeferred(callback_id, "_on_native_loaded", new Object[]{ id });
+                }
+                @Override
+                public void didFailToLoad(TMAdError error) {
+                    // No banners available. View will stop refreshing
+                    Log.w(TAG, "Native: didFailToLoad");
+                    GodotLib.calldeferred(callback_id, "_on_native_failed_to_load", new Object[]{ id, error.toString() });
+                }
+                @Override
+                public void didDisplay() {
+                    Log.w(TAG, "Native: didDisplay");
+                }
+                @Override
+                public void didClick() {
+                    // User clicked on banner
+                    Log.w(TAG, "Native: didClick");
+                }
+            };
+
+        TDMediatedNativeAdOptions options = new TDMediatedNativeAdOptions(); //optional param
+        sdk.loadMediatedNativeAd(activity, id, options, n.listener);
+        return n;
+    }
+
+
+    public void loadNative(final String id, final int callback_id)
+    {
+        activity.runOnUiThread(new Runnable() {
+                @Override public void run() {
+                    if(_inited) {
+                        if(!natives.containsKey(id)) {
+                            NativeWrapper n = initNative(id, callback_id);
+                            natives.put(id, n);
+                        } else {
+                            Log.w(TAG, "Native already loaded: " + id);
+                        }
+                    } else {
+                        Log.e(TAG, "Tapdaq not inited");
+                        GodotLib.calldeferred(callback_id, "_on_native_failed_to_load", new Object[]{ id, "SDK not initialized" });
+                    }
+                }
+            });
+    }
+
+    public void showNative(final String id)
+    {
+        activity.runOnUiThread(new Runnable() {
+                @Override public void run() {
+                    if(natives.containsKey(id)) {
+                        NativeWrapper n = natives.get(id);
+                        if(n.layout == null) {
+                            //n.layout = activity.getLayoutInflater().inflate(R.layout.nativead_layout, null);
+                            n.layout = new NativeAdLayout(activity);
+                            n.layout.populate(n.mAd);
+                            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, activity.getResources().getDisplayMetrics());
+                            FrameLayout.LayoutParams adParams = new FrameLayout.LayoutParams((int)pixels, (int)pixels);
+                            adParams.gravity = Gravity.CENTER;
+                            layout.addView(n.layout, adParams);
+                        }
+                        Log.d(TAG, "Show Native");
+                    } else {
+                        Log.w(TAG, "showNative: Native not found: "+id);
+                    }
+                }
+            });
+    }
+
+    public void removeNative(final String id)
+    {
+        activity.runOnUiThread(new Runnable() {
+                @Override public void run() {
+                    if(natives.containsKey(id)) {
+                        NativeWrapper n = natives.get(id);
+                        natives.remove(id);
+                        if(n.layout != null) {
+                            n.layout.clear();
+                            layout.removeView(n.layout); // Remove native layout
+                        }
+                        if(n.mAd != null) {
+                            n.mAd.destroy();
+                        }
+                        Log.d(TAG, "Remove Native");
+                    } else {
+                        Log.w(TAG, "removeNative: Native not found: "+id);
+                    }
+                }
+            });
+    }
+
     /* Utilities
      * ********************************************************************** */
     
@@ -587,14 +715,16 @@ public class Tapdaq extends GodotPlugin
     @Override
     public List<String> getPluginMethods() {
         return Arrays.asList(
-                "init", "initWithGdpr", "debugMediation", "updateGdprStatus", "updateAgeRestrictedStatus", "updateCCPAStatus", "updateUserId",
-                // banner
-                "loadBanner", "showBanner", "hideBanner", "removeBanner", "getBannerWidth", "getBannerHeight", 
-                "makeZombieBanner", "killZombieBanner",
-                // Interstitial
-                "loadInterstitial", "loadVideoInterstitial", "showInterstitial",
-                // Rewarded video
-                "loadRewardedVideo", "showRewardedVideo"
+                             "init", "initWithGdpr", "initWithTestDevice", "debugMediation", "updateGdprStatus", "updateAgeRestrictedStatus", "updateCCPAStatus", "updateUserId",
+                             // banner
+                             "loadBanner", "showBanner", "hideBanner", "removeBanner", "getBannerWidth", "getBannerHeight", 
+                             "makeZombieBanner", "killZombieBanner",
+                             // Interstitial
+                             "loadInterstitial", "loadVideoInterstitial", "showInterstitial",
+                             // Rewarded video
+                             "loadRewardedVideo", "showRewardedVideo",
+                             // Native ads
+                             "loadNative", "showNative", "removeNative"
         );
     }
 

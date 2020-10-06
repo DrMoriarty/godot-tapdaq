@@ -2,7 +2,7 @@
 
 name="Tapdaq"
 binary_type="remote"
-binary="ru.mobilap.godot:godot-tapdaq:+"
+binary="ru.mobilap.godot:godot-tapdaq:0.0.4"
 
 [dependencies]
 
