@@ -49,11 +49,11 @@ dependencies {
      library when building the final binary.
      */
     compileOnly fileTree(dir: 'libs', include: ['godot-lib*.aar'])
-    implementation 'com.tapdaq.sdk:Tapdaq-BaseSDK:7.7.0'
+    implementation 'com.tapdaq.sdk:Tapdaq-BaseSDK:7.8.0'
 }
 
 group = 'ru.mobilap.godot'
-version = '0.0.4'
+version = '0.0.5'
 ext {
     artifact = 'godot-tapdaq'
 }

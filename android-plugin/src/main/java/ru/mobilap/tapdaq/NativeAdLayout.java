@@ -116,10 +116,10 @@ public class NativeAdLayout extends RelativeLayout {
             if (ad.getStore() != null)
                 mStoreTextView.setText(ad.getStore());
 
-            if (ad.getImages() != null) {
+            if (ad.getImages() != null && ad.getImages().size() > 0) {
                 TDMediatedNativeAdImage image = ad.getImages().get(0);
                 if (image.getDrawable() != null) {
-                    mImageView.setImageDrawable(ad.getImages().get(0).getDrawable());
+                    mImageView.setImageDrawable(image.getDrawable());
                 } else if (image.getUrl() != null) {
                     new TClient().executeImageGET(getContext(), image.getUrl(), 0, 0, new HttpClientBase.ResponseImageHandler() {
                         @Override
