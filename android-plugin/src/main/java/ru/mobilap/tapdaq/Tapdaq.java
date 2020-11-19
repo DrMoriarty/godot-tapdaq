@@ -696,6 +696,12 @@ public class Tapdaq extends GodotPlugin
 
     /* Utilities
      * ********************************************************************** */
+
+    public void logPurchase(final String name, final String currency, final float price, final String in_app_purchase_data, final String in_app_purchase_signature)
+    {
+        Locale locale = Locale.getDefault();
+        sdk.sendIAP(activity, in_app_purchase_data, in_app_purchase_signature, name, price, currency, locale.getLanguage());
+    }
     
     /* Definitions
      * ********************************************************************** */
@@ -724,7 +730,9 @@ public class Tapdaq extends GodotPlugin
                              // Rewarded video
                              "loadRewardedVideo", "showRewardedVideo",
                              // Native ads
-                             "loadNative", "showNative", "removeNative"
+                             "loadNative", "showNative", "removeNative",
+                             // Utilities
+                             "logPurchase"
         );
     }
 
