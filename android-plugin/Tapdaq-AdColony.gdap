@@ -1,0 +1,11 @@
+[config]
+
+name="Tapdaq-AdColony"
+binary_type="remote"
+binary="com.tapdaq.sdk:TapdaqAdColonyAdapter:7.8.0"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=["http://android-sdk.tapdaq.com", "https://adcolony.bintray.com/AdColony"]

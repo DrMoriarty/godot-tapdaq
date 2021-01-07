@@ -1,0 +1,11 @@
+[config]
+
+name="Tapdaq-Vungle"
+binary_type="remote"
+binary="com.tapdaq.sdk:TapdaqVungleAdapter:7.8.0"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=["http://android-sdk.tapdaq.com"]

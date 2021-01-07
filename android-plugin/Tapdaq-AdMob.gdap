@@ -1,0 +1,11 @@
+[config]
+
+name="Tapdaq-AdMob"
+binary_type="remote"
+binary="com.tapdaq.sdk:TapdaqAdMobAdapter:7.8.0"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=["http://android-sdk.tapdaq.com"]

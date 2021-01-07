@@ -1,0 +1,15 @@
+{
+  "name": "tapdaq-fan",
+  "description": "Facebook Audience Network adapter for Tapdaq plugin.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "url": "https://github.com/DrMoriarty/godot-tapdaq.git",
+  "dependencies": [
+    "tapdaq"
+  ],
+  "platform_android": {
+    "files": {
+      "android-plugin/Tapdaq-FAN.gdap": "android/plugins/"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+[config]
+
+name="Tapdaq-Chartboost"
+binary_type="remote"
+binary="com.tapdaq.sdk:TapdaqChartboostAdapter:7.8.0"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=["http://android-sdk.tapdaq.com"]

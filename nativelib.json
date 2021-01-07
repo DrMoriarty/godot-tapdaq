@@ -1,0 +1,29 @@
+{
+  "name": "tapdaq",
+  "description": "Tapdaq plugin. Ad mediation and header-bidding solution.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "url": "https://github.com/DrMoriarty/godot-tapdaq.git",
+  "dependencies": [
+  ],
+  "files": {
+    "scripts": "scripts"
+  },
+  "variables": {
+    "Tapdaq/AppId": {
+      "info": "Set your App ID here"
+    },
+    "Tapdaq/ClientKey": {
+      "info": "Set your Client Key here"
+    }
+  },
+  "autoload": {
+    "tapdaq": "*res://scripts/tapdaq.gd"
+  },
+  "platform_android": {
+    "files": {
+      "android-plugin/Tapdaq.gdap": "android/plugins/",
+      "android-plugin/build/outputs/aar/Tapdaq.release.aar": "android/plugins/"
+    }
+  }
+}

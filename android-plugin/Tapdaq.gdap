@@ -1,0 +1,11 @@
+[config]
+
+name="Tapdaq"
+binary_type="local"
+binary="Tapdaq.release.aar"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=["http://android-sdk.tapdaq.com"]

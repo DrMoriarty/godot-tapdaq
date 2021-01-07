@@ -1,0 +1,11 @@
+[config]
+
+name="Tapdaq-IronSource"
+binary_type="remote"
+binary="com.tapdaq.sdk:TapdaqIronsourceAdapter:7.8.0"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=["http://android-sdk.tapdaq.com", "https://dl.bintray.com/ironsource-mobile/android-sdk"]
