@@ -1,11 +1,4 @@
-# godot-tapdaq
+# Tapdaq plugin for Godot engine.
 
-Tapdaq plugin for godot engine. You need godot version 3.2.2.beta or higher.
+Use [NativeLib Addon](https://github.com/DrMoriarty/nativelib) or [NativeLib-CLI](https://github.com/DrMoriarty/nativelib-cli) for installation.
 
-## Android usage
-
-Copy `Tapdaq.gdap` to `android/plugins`. Then enable plugin `Tapdaq` in export settings.
-
-## iOS usage
-
-Coming soon...
