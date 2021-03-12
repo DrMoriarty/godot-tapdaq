@@ -74,6 +74,10 @@ Update age restriction after initializing SDK
 
 Update CCPA status after initializing SDK
 
+### updateContentRating(rating: String)
+
+Update content rating for AdMob (possible values: G, PG, T, MA )
+
 ### updateUserId(uid: String)
 
 Set custom user ID
