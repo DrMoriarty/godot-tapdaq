@@ -189,6 +189,11 @@ public class Tapdaq extends GodotPlugin
         */
     }
 
+    public void updateContentRating(final String rating)
+    {
+        sdk.config().setAdMobContentRating(rating);
+    }
+
     public void updateUserId(final String userId)
     {
         sdk.config().setForwardUserId(true);
@@ -719,7 +724,7 @@ public class Tapdaq extends GodotPlugin
     @Override
     public List<String> getPluginMethods() {
         return Arrays.asList(
-                             "init", "initWithGdpr", "initWithTestDevice", "debugMediation", "updateGdprStatus", "updateAgeRestrictedStatus", "updateCCPAStatus", "updateUserId",
+                             "init", "initWithGdpr", "initWithTestDevice", "debugMediation", "updateGdprStatus", "updateAgeRestrictedStatus", "updateCCPAStatus", "updateUserId", "updateContentRating",
                              // banner
                              "loadBanner", "showBanner", "hideBanner", "removeBanner", "getBannerWidth", "getBannerHeight", 
                              "makeZombieBanner", "killZombieBanner",

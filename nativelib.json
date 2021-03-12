@@ -2,7 +2,7 @@
   "name": "tapdaq",
   "display_name": "Tapdaq",
   "description": "Tapdaq SDK. Ad mediation and header-bidding solution.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "godot_version": "3.2.3",
   "category": "misc",

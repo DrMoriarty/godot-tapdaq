@@ -57,6 +57,10 @@ func updateCCPAStatus(applies: bool, approval: bool) -> void:
     if _ads != null:
         _ads.updateCCPAStatus(applies, approval)
 
+func updateContentRating(rating: String) -> void:
+    if _ads != null:
+        _ads.updateContentRating(rating)
+
 func updateUserId(uid: String) -> void:
     if _ads != null:
         _ads.udpateUserId(uid)
