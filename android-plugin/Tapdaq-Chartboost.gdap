@@ -2,7 +2,7 @@
 
 name="Tapdaq-Chartboost"
 binary_type="remote"
-binary="com.tapdaq.sdk:TapdaqChartboostAdapter:7.8.0"
+binary="com.tapdaq.sdk:TapdaqChartboostAdapter:7.8.2"
 
 [dependencies]
 

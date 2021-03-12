@@ -2,7 +2,7 @@
 
 name="Tapdaq-Tapjoy"
 binary_type="remote"
-binary="com.tapdaq.sdk:TapdaqTapjoyAdapter:7.8.0"
+binary="com.tapdaq.sdk:TapdaqTapjoyAdapter:7.8.2"
 
 [dependencies]
 

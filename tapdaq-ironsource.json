@@ -1,9 +1,16 @@
 {
   "name": "tapdaq-ironsource",
+  "display_name": "Tapdaq: IronSource",
   "description": "IronSource adapter for Tapdaq plugin.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
+  "godot_version": "3.2.3",
+  "category": "misc",
   "url": "https://github.com/DrMoriarty/godot-tapdaq.git",
+  "author": {
+    "name": "DrMoriarty",
+    "url": "https://github.com/DrMoriarty"
+  },
   "dependencies": [
     "tapdaq"
   ],

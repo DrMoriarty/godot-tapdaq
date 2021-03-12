@@ -2,7 +2,7 @@
 
 name="Tapdaq-Vungle"
 binary_type="remote"
-binary="com.tapdaq.sdk:TapdaqVungleAdapter:7.8.0"
+binary="com.tapdaq.sdk:TapdaqVungleAdapter:7.8.2"
 
 [dependencies]
 

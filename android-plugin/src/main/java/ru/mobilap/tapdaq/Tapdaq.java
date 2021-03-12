@@ -41,7 +41,6 @@ public class Tapdaq extends GodotPlugin
 {
 
     private final String TAG = Tapdaq.class.getName();
-    private Activity activity = null; // The main activity of the game
     private boolean _inited = false;
 
     private HashMap<String, View> zombieBanners = new HashMap<>();
@@ -129,10 +128,10 @@ public class Tapdaq extends GodotPlugin
 
     private void internalInit(final String appId, final String clientKey, final TapdaqConfig config)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     sdk = com.tapdaq.sdk.Tapdaq.getInstance();
-                    sdk.initialize(activity, appId, clientKey, config, new TMInitListener() {
+                    sdk.initialize(getActivity(), appId, clientKey, config, new TMInitListener() {
                             public void didInitialise() {
                                 super.didInitialise();
                                 // Ads may now be requested
@@ -153,9 +152,9 @@ public class Tapdaq extends GodotPlugin
 
     public void debugMediation()
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
-                    sdk.startTestActivity(activity);
+                    sdk.startTestActivity(getActivity());
                 }
             });
     }
@@ -163,37 +162,37 @@ public class Tapdaq extends GodotPlugin
     public void updateGdprStatus(final boolean applies, final boolean approved)
     {
         if(applies) {
-            sdk.setUserSubjectToGDPR(activity, STATUS.TRUE);
-            sdk.setContentGiven(activity, approved);
+            sdk.setUserSubjectToGDPR(getActivity(), STATUS.TRUE);
+            sdk.setContentGiven(getActivity(), approved);
         } else {
-            sdk.setUserSubjectToGDPR(activity, STATUS.FALSE);
-            sdk.setContentGiven(activity, approved);
+            sdk.setUserSubjectToGDPR(getActivity(), STATUS.FALSE);
+            sdk.setContentGiven(getActivity(), approved);
         }
     }
 
     public void updateAgeRestrictedStatus(final boolean ageRestricted)
     {
-        sdk.setIsAgeRestrictedUser(activity, ageRestricted);
+        sdk.setIsAgeRestrictedUser(getActivity(), ageRestricted);
     }
 
     public void updateCCPAStatus(final boolean applies, final boolean approved)
     {
         /*
         if(applies)
-            sdk.setUserSubjectToUSPrivacyStatus(activity, STATUS.TRUE);
+            sdk.setUserSubjectToUSPrivacyStatus(getActivity(), STATUS.TRUE);
         else
-            sdk.setUserSubjectToUSPrivacyStatus(activity, STATUS.FALSE);
+            sdk.setUserSubjectToUSPrivacyStatus(getActivity(), STATUS.FALSE);
         if(approved)
-            sdk.setUSPrivacyStatus(activity, STATUS.TRUE);
+            sdk.setUSPrivacyStatus(getActivity(), STATUS.TRUE);
         else
-            sdk.setUSPrivacyStatus(activity, STATUS.FALSE);
+            sdk.setUSPrivacyStatus(getActivity(), STATUS.FALSE);
         */
     }
 
     public void updateUserId(final String userId)
     {
         sdk.config().setForwardUserId(true);
-        sdk.setUserId(activity, userId);
+        sdk.setUserId(getActivity(), userId);
     }
 
     /* Rewarded Video
@@ -247,13 +246,13 @@ public class Tapdaq extends GodotPlugin
      * @param String id AdMod Rewarded video ID
      */
     public void loadRewardedVideo(final String id, final int callback_id) {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(_inited) {
                         if(!rewardeds.containsKey(id)) {
                             TMAdListener listener = makeRewardedListener(id, callback_id);
                             rewardeds.put(id, listener);
-                            sdk.loadRewardedVideo(activity,  id, listener);
+                            sdk.loadRewardedVideo(getActivity(),  id, listener);
                         } else {
                             Log.i(TAG, "Rewarded already created: "+id);
                         }
@@ -269,11 +268,11 @@ public class Tapdaq extends GodotPlugin
      * Show a Rewarded Video
      */
     public void showRewardedVideo(final String id) {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
-                    if(rewardeds.containsKey(id) && sdk.isRewardedVideoReady(activity, id)) {
+                    if(rewardeds.containsKey(id) && sdk.isRewardedVideoReady(getActivity(), id)) {
                         TMAdListener listener = rewardeds.get(id);
-                        sdk.showRewardedVideo(activity, id, listener);
+                        sdk.showRewardedVideo(getActivity(), id, listener);
                     } else {
                         Log.w(TAG, "Rewarded not found: " + id);
                     }
@@ -294,7 +293,7 @@ public class Tapdaq extends GodotPlugin
         else adParams.gravity = Gravity.BOTTOM;
         bannerParams.put(id, adParams);
                 
-        TMBannerAdView banner = new TMBannerAdView(activity);
+        TMBannerAdView banner = new TMBannerAdView(getActivity());
         banner.setBackgroundColor(/* Color.WHITE */Color.TRANSPARENT);
 
         TMAdListener listener = new TMAdListener() {
@@ -329,7 +328,7 @@ public class Tapdaq extends GodotPlugin
             };
 
         // Request
-        banner.load(activity, id, TMBannerAdSizes.STANDARD, listener);
+        banner.load(getActivity(), id, TMBannerAdSizes.STANDARD, listener);
         return banner;
     }
 
@@ -346,7 +345,7 @@ public class Tapdaq extends GodotPlugin
      */
     public void loadBanner(final String id, final boolean isOnTop, final int callback_id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(_inited) {
                         if(!banners.containsKey(id)) {
@@ -368,7 +367,7 @@ public class Tapdaq extends GodotPlugin
      */
     public void showBanner(final String id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(banners.containsKey(id)) {
                         TMBannerAdView b = banners.get(id);
@@ -392,7 +391,7 @@ public class Tapdaq extends GodotPlugin
 
     public void removeBanner(final String id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(banners.containsKey(id)) {
                         TMBannerAdView b = banners.get(id);
@@ -412,7 +411,7 @@ public class Tapdaq extends GodotPlugin
      */
     public void hideBanner(final String id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(banners.containsKey(id)) {
                         TMBannerAdView b = banners.get(id);
@@ -435,7 +434,7 @@ public class Tapdaq extends GodotPlugin
             TMBannerAdView b = banners.get(id);
             int w = b.getWidth();
             if(w == 0) {
-                Resources r = activity.getResources();
+                Resources r = getActivity().getResources();
                 w = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, b.getSize().width, r.getDisplayMetrics());
             }
             return w;
@@ -454,7 +453,7 @@ public class Tapdaq extends GodotPlugin
             TMBannerAdView b = banners.get(id);
             int h = b.getHeight();
             if(h == 0) {
-                Resources r = activity.getResources();
+                Resources r = getActivity().getResources();
                 h = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, b.getSize().height, r.getDisplayMetrics());
             }
             return h;
@@ -480,7 +479,7 @@ public class Tapdaq extends GodotPlugin
 
     public void killZombieBanner(final String zid)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if (zombieBanners.containsKey(zid)) {
                         View z = zombieBanners.get(zid);
@@ -535,13 +534,13 @@ public class Tapdaq extends GodotPlugin
      */
     public void loadInterstitial(final String id, final int callback_id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(_inited) {
                         if(!interstitials.containsKey(id)) {
                             TMAdListener listener = makeInterstitialListener(id, callback_id);
                             interstitials.put(id, new InterstitialWrapper(id, false, listener));
-                            sdk.loadInterstitial(activity,  id, listener);
+                            sdk.loadInterstitial(getActivity(),  id, listener);
                         } else {
                             Log.i(TAG, "Interstitial already created: "+id);
                         }
@@ -555,12 +554,12 @@ public class Tapdaq extends GodotPlugin
 
     public void loadVideoInterstitial(final String id, final int callback_id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(_inited) {
                         TMAdListener listener = makeInterstitialListener(id, callback_id);
                         interstitials.put(id, new InterstitialWrapper(id, true, listener));
-                        sdk.loadVideo(activity,  id, listener);
+                        sdk.loadVideo(getActivity(),  id, listener);
                     } else {
                         Log.e(TAG, "Tapdaq not inited");
                         GodotLib.calldeferred(callback_id, "_on_interstitial_failed_to_load", new Object[] { id, "SDK not initialized" });
@@ -574,14 +573,14 @@ public class Tapdaq extends GodotPlugin
      */
     public void showInterstitial(final String id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if (interstitials.containsKey(id)) {
                         InterstitialWrapper interstitial = interstitials.get(id);
-                        if(interstitial.video && sdk.isVideoReady(activity, id)) {
-                            sdk.showVideo(activity, id, interstitial.listener);
-                        } else if(!interstitial.video && sdk.isInterstitialReady(activity, id)) {
-                            sdk.showInterstitial(activity, id, interstitial.listener);
+                        if(interstitial.video && sdk.isVideoReady(getActivity(), id)) {
+                            sdk.showVideo(getActivity(), id, interstitial.listener);
+                        } else if(!interstitial.video && sdk.isInterstitialReady(getActivity(), id)) {
+                            sdk.showInterstitial(getActivity(), id, interstitial.listener);
                         } else {
                             Log.w(TAG, "showInterstitial: interstitial not loaded");
                         }
@@ -625,14 +624,14 @@ public class Tapdaq extends GodotPlugin
             };
 
         TDMediatedNativeAdOptions options = new TDMediatedNativeAdOptions(); //optional param
-        sdk.loadMediatedNativeAd(activity, id, options, n.listener);
+        sdk.loadMediatedNativeAd(getActivity(), id, options, n.listener);
         return n;
     }
 
 
     public void loadNative(final String id, final int callback_id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(_inited) {
                         if(!natives.containsKey(id)) {
@@ -651,15 +650,15 @@ public class Tapdaq extends GodotPlugin
 
     public void showNative(final String id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(natives.containsKey(id)) {
                         NativeWrapper n = natives.get(id);
                         if(n.layout == null) {
-                            //n.layout = activity.getLayoutInflater().inflate(R.layout.nativead_layout, null);
-                            n.layout = new NativeAdLayout(activity);
+                            //n.layout = getActivity().getLayoutInflater().inflate(R.layout.nativead_layout, null);
+                            n.layout = new NativeAdLayout(getActivity());
                             n.layout.populate(n.mAd);
-                            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, activity.getResources().getDisplayMetrics());
+                            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getActivity().getResources().getDisplayMetrics());
                             FrameLayout.LayoutParams adParams = new FrameLayout.LayoutParams((int)pixels, (int)pixels);
                             adParams.gravity = Gravity.CENTER;
                             layout.addView(n.layout, adParams);
@@ -674,7 +673,7 @@ public class Tapdaq extends GodotPlugin
 
     public void removeNative(final String id)
     {
-        activity.runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
                 @Override public void run() {
                     if(natives.containsKey(id)) {
                         NativeWrapper n = natives.get(id);
@@ -700,7 +699,7 @@ public class Tapdaq extends GodotPlugin
     public void logPurchase(final String name, final String currency, final float price, final String in_app_purchase_data, final String in_app_purchase_signature)
     {
         Locale locale = Locale.getDefault();
-        sdk.sendIAP(activity, in_app_purchase_data, in_app_purchase_signature, name, price, currency, locale.getLanguage());
+        sdk.sendIAP(getActivity(), in_app_purchase_data, in_app_purchase_signature, name, price, currency, locale.getLanguage());
     }
     
     /* Definitions
@@ -709,8 +708,7 @@ public class Tapdaq extends GodotPlugin
     public Tapdaq(Godot godot) 
     {
         super(godot);
-        activity = godot;
-        layout = (FrameLayout)activity.getWindow().getDecorView().getRootView();
+        layout = (FrameLayout)getActivity().getWindow().getDecorView().getRootView();
     }
 
     @Override

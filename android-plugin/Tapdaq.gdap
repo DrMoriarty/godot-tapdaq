@@ -7,5 +7,5 @@ binary="Tapdaq.release.aar"
 [dependencies]
 
 local=[]
-remote=[]
+remote=["com.tapdaq.sdk:Tapdaq-BaseSDK:7.8.2"]
 custom_maven_repos=["http://android-sdk.tapdaq.com"]

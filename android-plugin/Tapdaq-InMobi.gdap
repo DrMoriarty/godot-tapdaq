@@ -2,7 +2,7 @@
 
 name="Tapdaq"
 binary_type="remote"
-binary="com.tapdaq.sdk:TapdaqInmobiAdapter:7.8.0"
+binary="com.tapdaq.sdk:TapdaqInmobiAdapter:7.8.2"
 
 [dependencies]
 

@@ -2,7 +2,7 @@
 
 name="Tapdaq-Mintegral"
 binary_type="remote"
-binary="com.tapdaq.sdk:TapdaqMintegralAdapter:7.8.0"
+binary="com.tapdaq.sdk:TapdaqMintegralAdapter:7.8.2"
 
 [dependencies]
 

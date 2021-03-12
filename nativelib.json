@@ -1,11 +1,17 @@
 {
   "name": "tapdaq",
-  "description": "Tapdaq plugin. Ad mediation and header-bidding solution.",
-  "version": "0.1.0",
+  "display_name": "Tapdaq",
+  "description": "Tapdaq SDK. Ad mediation and header-bidding solution.",
+  "version": "1.0.0",
   "license": "MIT",
+  "godot_version": "3.2.3",
+  "category": "misc",
   "url": "https://github.com/DrMoriarty/godot-tapdaq.git",
-  "dependencies": [
-  ],
+  "author": {
+    "name": "DrMoriarty",
+    "url": "https://github.com/DrMoriarty",
+    "donate": "https://ko-fi.com/drmoriarty"
+  },
   "files": {
     "scripts": "scripts"
   },
