@@ -56,6 +56,28 @@ Show interstitial with specific zone ID. The interstitial must be loaded before 
 
 Show rewarded video ad with specific zone ID. The rewarded ad must be loaded before call.
 
+## Privacy settings
+
+### initWithGdpr(app_id: String, client_key: String, applies: bool, approval: bool)
+
+Init SDK with GPDR status. If using [Ogury plugin](https://github.com/DrMoriarty/godot-ogury) it can be done automatically.
+
+### updateGdprStatus(applies: bool, approval: bool)
+
+Update GPDR status after initializing SDK
+
+### updateAgeRestrictedStatus(age_restricted: bool)
+
+Update age restriction after initializing SDK
+
+### updateCCPAStatus(applies: bool, approval: bool)
+
+Update CCPA status after initializing SDK
+
+### updateUserId(uid: String)
+
+Set custom user ID
+
 ## Callbacks
 
 When load ad you specified instance_id of callback object. This object can have methods to get callbacks from the SDK.
